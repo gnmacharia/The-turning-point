@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Invisible Pivots Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1814;--ink-soft:#4a453e;--ink-muted:#8a847a;
+  --paper:#faf8f4;--paper-warm:#f2ede4;--paper-deep:#e8e0d4;
+  --accent:#c4602a;--accent-light:#f0e4d8;--accent-dark:#a84e22;
+  --green:#2a7a4a;--green-light:#e4f0ea;
+  --amber:#b07a1a;--amber-light:#f5edda;
+  --red:#b03020;--red-light:#f0e0dc;
+  --border:#e0d8cc;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* SCREENS */
+.screen{display:none;animation:fadeUp 0.6s ease both}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* TOP BAR */
+.topbar{border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:var(--paper);position:sticky;top:0;z-index:100}
+.topbar-brand{font-family:var(--serif);font-size:14px;color:var(--ink-soft);letter-spacing:0.04em}
+.topbar-step{font-size:12px;color:var(--ink-muted);letter-spacing:0.08em}
+
+/* PROGRESS BAR */
+.progress-wrap{height:3px;background:var(--border);position:sticky;top:57px;z-index:99}
+.progress-bar{height:3px;background:var(--accent);transition:width 0.4s ease;width:0%}
+
+/* LANDING */
+.hero{max-width:680px;margin:0 auto;padding:5rem 2rem 2rem;text-align:center}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem}
+.hero h1{font-family:var(--serif);font-size:clamp(2rem,5vw,3rem);font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:1.25rem}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:17px;color:var(--ink-soft);max-width:500px;margin:0 auto 2rem;line-height:1.75}
+
+/* CTA BOX */
+.cta-box{background:var(--paper-warm);border:1px solid var(--border);border-radius:6px;max-width:480px;margin:0 auto 2rem;padding:1.5rem 2rem;text-align:left}
+.cta-box-title{font-family:var(--serif);font-size:1.05rem;color:var(--ink);margin-bottom:1rem}
+.cta-checklist{list-style:none;margin-bottom:1.5rem}
+.cta-checklist li{font-size:14px;color:var(--ink-soft);padding:0.3rem 0;display:flex;align-items:center;gap:0.6rem}
+.cta-checklist li::before{content:'';width:16px;height:16px;min-width:16px;border-radius:50%;background:var(--green-light);border:1.5px solid var(--green);display:inline-block;position:relative}
+.cta-checklist li::before{background:var(--green);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M6.5 11.5L3 8l1-1 2.5 2.5 5-5 1 1z'/%3E%3C/svg%3E") center/contain no-repeat}
+.btn{display:inline-block;font-family:var(--sans);font-size:15px;font-weight:500;padding:0.85rem 2rem;border-radius:4px;border:none;cursor:pointer;transition:all 0.2s;text-align:center;width:100%}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dark);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--ink-soft);border:1px solid var(--border);margin-top:0.6rem}
+.btn-secondary:hover{border-color:var(--ink-muted)}
+.cta-note{font-size:12px;color:var(--ink-muted);text-align:center;margin-top:0.75rem}
+
+/* BENEFITS */
+.section{max-width:680px;margin:0 auto;padding:0 2rem 4rem}
+.section-label{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:1.25rem;text-align:center}
+.benefits-intro{font-family:var(--serif);font-size:1.35rem;font-weight:400;text-align:center;color:var(--ink);margin-bottom:2rem;line-height:1.45}
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}
+.benefit-card{background:var(--paper-warm);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1rem}
+.benefit-num{font-family:var(--serif);font-size:1.8rem;color:var(--accent);line-height:1;margin-bottom:0.6rem}
+.benefit-title{font-weight:500;font-size:13px;color:var(--ink);margin-bottom:0.3rem}
+.benefit-desc{font-size:12px;color:var(--ink-soft);line-height:1.55}
+hr.divider{border:none;border-top:1px solid var(--border);max-width:60px;margin:0 auto 3rem}
+
+/* CREDIBILITY */
+.cred-section{background:var(--paper-warm);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3.5rem 2rem}
+.cred-inner{max-width:680px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+@media(max-width:580px){.cred-inner{grid-template-columns:1fr;gap:2rem}}
+.bio-avatar{width:52px;height:52px;border-radius:50%;background:var(--accent-light);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.2rem;color:var(--accent);margin-bottom:0.9rem}
+.bio-name{font-family:var(--serif);font-size:1.05rem;color:var(--ink);margin-bottom:0.2rem}
+.bio-role{font-size:12px;color:var(--ink-muted);margin-bottom:0.8rem;letter-spacing:0.03em}
+.bio-text{font-size:13px;color:var(--ink-soft);line-height:1.75}
+.research-item{border-left:2px solid var(--accent);padding:0.65rem 0 0.65rem 1rem;margin-bottom:0.9rem}
+.research-quote{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink);margin-bottom:0.25rem;line-height:1.5}
+.research-source{font-size:11px;color:var(--ink-muted)}
+
+/* TESTIMONIAL */
+.testimonial-section{max-width:680px;margin:0 auto;padding:3.5rem 2rem;text-align:center}
+.t-mark{font-family:var(--serif);font-size:3.5rem;color:var(--accent-light);line-height:0.7;margin-bottom:0.5rem}
+.t-text{font-family:var(--serif);font-size:1.15rem;font-style:italic;color:var(--ink);max-width:500px;margin:0 auto 1.25rem;line-height:1.65}
+.t-person{font-size:13px;color:var(--ink-muted)}
+.t-person strong{color:var(--ink-soft);font-weight:500}
+
+/* DARK CTA FOOTER */
+.cta-footer{background:var(--ink);padding:4rem 2rem;text-align:center}
+.cta-footer h2{font-family:var(--serif);font-size:clamp(1.4rem,3vw,2rem);color:var(--paper);margin-bottom:0.9rem;font-weight:400}
+.cta-footer h2 em{font-style:italic;color:#e8a07a}
+.cta-footer p{font-size:15px;color:#a09890;margin-bottom:1.75rem;max-width:400px;margin-left:auto;margin-right:auto}
+.btn-light{background:var(--paper);color:var(--ink);width:auto;padding:0.85rem 2.2rem}
+.btn-light:hover{background:var(--paper-warm)}
+
+/* DATA CAPTURE */
+.capture-wrap{max-width:500px;margin:0 auto;padding:4rem 2rem}
+.capture-wrap h2{font-family:var(--serif);font-size:1.8rem;color:var(--ink);margin-bottom:0.5rem;font-weight:700}
+.capture-wrap p{font-size:15px;color:var(--ink-soft);margin-bottom:2rem;line-height:1.65}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--ink-soft);margin-bottom:0.4rem;letter-spacing:0.03em}
+.form-group input,.form-group textarea{width:100%;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;background:var(--paper);font-family:var(--sans);font-size:15px;color:var(--ink);outline:none;transition:border-color 0.2s}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
+.privacy-note{font-size:12px;color:var(--ink-muted);margin-top:0.5rem}
+
+/* QUESTIONS */
+.questions-wrap{max-width:580px;margin:0 auto;padding:3rem 2rem 4rem}
+.q-section-tag{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem}
+.q-number{font-size:12px;color:var(--ink-muted);margin-bottom:0.5rem}
+.q-text{font-family:var(--serif);font-size:1.3rem;color:var(--ink);margin-bottom:1.5rem;line-height:1.45;font-weight:400}
+.options-list{display:flex;flex-direction:column;gap:0.7rem;margin-bottom:2rem}
+.option-btn{padding:0.8rem 1.1rem;border:1px solid var(--border);border-radius:4px;background:var(--paper);font-family:var(--sans);font-size:14px;color:var(--ink-soft);cursor:pointer;text-align:left;transition:all 0.15s;line-height:1.5}
+.option-btn:hover{border-color:var(--accent);color:var(--ink);background:var(--accent-light)}
+.option-btn.selected{border-color:var(--accent);background:var(--accent-light);color:var(--ink);font-weight:500}
+.open-text{width:100%;min-height:100px;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:4px;font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--paper);resize:vertical;outline:none;transition:border-color 0.2s}
+.open-text:focus{border-color:var(--accent)}
+.optional-tag{font-size:11px;color:var(--ink-muted);margin-bottom:0.5rem}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1rem}
+.btn-back{background:transparent;color:var(--ink-muted);border:1px solid var(--border);padding:0.65rem 1.25rem;font-size:14px;border-radius:4px;cursor:pointer;font-family:var(--sans)}
+.btn-back:hover{color:var(--ink-soft)}
+.btn-next{background:var(--accent);color:#fff;border:none;padding:0.75rem 1.75rem;font-size:14px;font-weight:500;border-radius:4px;cursor:pointer;font-family:var(--sans);transition:background 0.2s}
+.btn-next:hover{background:var(--accent-dark)}
+.btn-next:disabled{background:var(--border);color:var(--ink-muted);cursor:not-allowed}
+
+/* RESULTS */
+.results-wrap{max-width:680px;margin:0 auto;padding:3rem 2rem 5rem}
+.results-hero{text-align:center;margin-bottom:3rem}
+.results-hero h2{font-family:var(--serif);font-size:2rem;color:var(--ink);margin-bottom:0.5rem}
+.results-name{font-size:15px;color:var(--ink-muted);margin-bottom:2rem}
+
+/* SPEEDOMETER */
+.gauge-wrap{display:flex;justify-content:center;margin-bottom:0.5rem}
+.gauge-label{text-align:center;font-size:13px;color:var(--ink-muted);margin-bottom:2rem}
+.score-badge{display:inline-block;font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--ink);line-height:1}
+.score-max{font-size:1rem;color:var(--ink-muted);font-family:var(--sans);font-weight:400}
+
+/* TRAFFIC LIGHTS */
+.traffic-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:2.5rem}
+@media(max-width:500px){.traffic-grid{grid-template-columns:repeat(2,1fr)}}
+.traffic-cell{border:1px solid var(--border);border-radius:4px;padding:0.85rem 0.6rem;text-align:center;background:var(--paper-warm)}
+.traffic-dot{width:24px;height:24px;border-radius:50%;margin:0 auto 0.5rem}
+.traffic-dim{font-size:11px;font-weight:500;color:var(--ink-soft);line-height:1.4}
+
+/* INSIGHTS */
+.insights-section{margin-bottom:2.5rem}
+.insight-card{border-left:3px solid var(--accent);padding:1rem 1rem 1rem 1.25rem;margin-bottom:1rem;background:var(--paper-warm);border-radius:0 4px 4px 0}
+.insight-label{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.3rem}
+.insight-text{font-size:15px;color:var(--ink);line-height:1.65}
+
+/* INTRO MESSAGE */
+.intro-card{border:1px solid var(--border);border-radius:6px;padding:1.75rem;margin-bottom:2.5rem;background:var(--paper)}
+.intro-card h3{font-family:var(--serif);font-size:1.25rem;color:var(--ink);margin-bottom:0.75rem}
+.intro-card p{font-size:15px;color:var(--ink-soft);line-height:1.7}
+
+/* NEXT STEPS */
+.next-steps{margin-bottom:2.5rem}
+.next-step-card{border:1px solid var(--border);border-radius:6px;padding:1.5rem;margin-bottom:1rem;display:flex;gap:1rem;align-items:flex-start}
+.step-icon{min-width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:14px;color:#fff}
+.step-icon.qualified{background:var(--green)}
+.step-icon.nurture{background:var(--amber)}
+.step-title{font-weight:500;font-size:15px;color:var(--ink);margin-bottom:0.3rem}
+.step-desc{font-size:14px;color:var(--ink-soft);line-height:1.6}
+
+/* PDF BUTTON */
+.pdf-btn{display:inline-flex;align-items:center;gap:0.5rem;background:var(--paper-warm);border:1px solid var(--border);padding:0.7rem 1.25rem;border-radius:4px;font-size:13px;color:var(--ink-soft);cursor:pointer;font-family:var(--sans);transition:all 0.2s;margin-top:1rem}
+.pdf-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* SECTION HEADERS */
+.results-section-label{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+
+svg text{font-family:var(--sans)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-brand">Invisible Pivots</span>
+  <span class="topbar-step" id="topbar-step">Free Assessment</span>
+</div>
+<div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 1: LANDING
+══════════════════════════════════════ -->
+<div class="screen active" id="screen-landing">
+
+  <div class="hero">
+    <p class="eyebrow">Free Assessment &nbsp;·&nbsp; 4 Questions &nbsp;·&nbsp; 2 Minutes</p>
+    <p style="font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--ink-muted);max-width:500px;margin:0 auto 1.75rem;line-height:1.8;border-left:2px solid var(--accent);padding-left:1rem;text-align:left;">In many African traditions, time isn't a resource to be optimised — it's woven from real events, real people, real moments. How you show up in the unplanned moments matters far more than any grand strategy.</p>
+    <h1>Keith Jarrett didn't wait<br>for <em>a better piano.</em><br>He played the broken one.</h1>
+    <p class="hero-sub">That recording became the bestselling solo jazz album in history. Not because conditions were right — because he responded when they weren't. Find out how you respond.</p>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <p class="section-label">Three things this reveals</p>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-num">01</div>
+        <div class="benefit-title">The broken piano you're avoiding</div>
+        <div class="benefit-desc">How much energy are you spending resisting your current conditions rather than working with them?</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-num">02</div>
+        <div class="benefit-title">The wheel you think you're steering</div>
+        <div class="benefit-desc">How tightly are you holding a narrative of control that the evidence doesn't support?</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-num">03</div>
+        <div class="benefit-title">The gap between what happens and what you do next</div>
+        <div class="benefit-desc">What actually lives in that gap — clarity, noise, habit, or something you've never examined?</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:680px;margin:0 auto;padding:0 2rem 4rem;text-align:center;">
+    <button class="btn btn-primary" style="max-width:320px;margin:0 auto" onclick="goTo('screen-capture')">Start the free assessment →</button>
+    <p class="cta-note" style="margin-top:0.75rem">4 questions &nbsp;·&nbsp; 2 minutes &nbsp;·&nbsp; Immediate results &nbsp;·&nbsp; Free</p>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 2: DATA CAPTURE
+══════════════════════════════════════ -->
+<div class="screen" id="screen-capture">
+  <div class="capture-wrap">
+    <h2>Before we begin</h2>
+    <p>Enter your name and email to get started — your results will be waiting on the other side.</p>
+    <div class="form-group">
+      <label>First name</label>
+      <input type="text" id="input-name" placeholder="e.g. Amara" />
+    </div>
+    <div class="form-group">
+      <label>Email address</label>
+      <input type="email" id="input-email" placeholder="you@example.com" />
+      <p class="privacy-note">No spam. Used only to deliver your results.</p>
+    </div>
+    <button class="btn btn-primary" onclick="startAssessment()">Continue →</button>
+    <p class="cta-note" style="margin-top:0.75rem">Free &nbsp;·&nbsp; 4 questions &nbsp;·&nbsp; 2 minutes &nbsp;·&nbsp; Immediate results</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 3: QUESTIONS
+══════════════════════════════════════ -->
+<div class="screen" id="screen-questions">
+  <div class="questions-wrap">
+    <div id="question-container"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 4: RESULTS
+══════════════════════════════════════ -->
+<div class="screen" id="screen-results">
+  <div class="results-wrap">
+
+    <div class="results-hero">
+      <h2>Your results, <span id="result-name">friend</span></h2>
+      <p class="results-name">Here's an honest picture of where you stand right now.</p>
+    </div>
+
+    <!-- SCORE DISPLAY -->
+    <div class="results-section-label">Your overall score</div>
+    <div class="gauge-wrap">
+      <svg id="gauge-svg" width="260" height="150" viewBox="0 0 260 150"></svg>
+    </div>
+    <div class="gauge-label">
+      <span class="score-badge" id="score-display">0</span><span class="score-max">/10</span>
+      <br><span id="score-label-text" style="font-size:14px;font-weight:500"></span>
+    </div>
+
+    <!-- DIMENSION TRAFFIC LIGHTS -->
+    <div class="results-section-label" style="margin-top:1.5rem">Your four dimensions</div>
+    <div class="traffic-grid" id="traffic-grid"></div>
+
+    <!-- INSIGHTS -->
+    <div class="results-section-label">Key insights</div>
+    <div class="insights-section" id="insights-section"></div>
+
+    <!-- PERSONALISED INTRO -->
+    <div class="results-section-label">A note for you</div>
+    <div class="intro-card" id="intro-card"></div>
+
+    <!-- NEXT STEPS -->
+    <div class="results-section-label">Your next steps</div>
+    <div class="next-steps" id="next-steps"></div>
+
+    <!-- PDF -->
+    <div style="border-top:1px solid var(--border);padding-top:1.5rem;text-align:center">
+      <p style="font-size:13px;color:var(--ink-muted);margin-bottom:0.5rem">Save or share your results</p>
+      <button class="pdf-btn" onclick="downloadPDF()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 12-4-4m4 4 4-4M4 20h16"/></svg>
+        Download PDF summary
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────
+// Dimensions: 0=waiting, 1=conditions, 2=control, 3=pause
+const questions = [
+  // Q1: The broken piano — how do you meet a constraint?
+  {
+    id:1, tag:"The broken piano",
+    text:"Keith Jarrett was handed a piano that barely worked — two hours before a sold-out show. Think of the last time something stopped working for you. What did you actually do?",
+    type:"choice",
+    options:[
+      {text:"I worked with what I had and found a way through", score:3, dim:1},
+      {text:"I pushed forward but kept one eye on finding something better", score:2, dim:1},
+      {text:"I paused and waited — convinced the conditions needed to improve first", score:0, dim:0},
+      {text:"I went through the motions but wasn't really present in it", score:1, dim:2}
+    ]
+  },
+  // Q2: The invisible pivot — how much do you see the conditions underneath your story?
+  {
+    id:2, tag:"The invisible thread",
+    text:"Stimson saved Kyoto because of a holiday he took nineteen years earlier. When you look at where you are now — how much of it do you think you chose?",
+    type:"choice",
+    options:[
+      {text:"Most of it. The choices I made got me here.", score:1, dim:2},
+      {text:"Some of it. I made choices, but a lot just happened.", score:3, dim:2},
+      {text:"Very little. Things just unfolded and I followed.", score:1, dim:2},
+      {text:"I've never really examined it. I try not to think about it.", score:0, dim:2}
+    ]
+  },
+  // Q3: The pause — what lives in the gap?
+  {
+    id:3, tag:"The gap",
+    text:"Between what hits you and how you respond — there's a moment. What usually lives in that moment for you?",
+    type:"choice",
+    options:[
+      {text:"Space. I've learned to sit there before I move.", score:3, dim:3},
+      {text:"A brief delay — then I react anyway, usually as expected.", score:1, dim:3},
+      {text:"Nothing. I respond before I've registered there was a choice.", score:0, dim:3},
+      {text:"It varies — sometimes I hold it, sometimes it holds me.", score:2, dim:3}
+    ]
+  },
+  // Q4: The honest picture — open text + what's actually in the way
+  {
+    id:4, tag:"The honest picture",
+    text:"If you're honest about where you're stuck — what does that look like?",
+    type:"choice_plus_open",
+    options:[
+      {text:"I know what I want but keep waiting for the right conditions to show up", score:0, dim:0},
+      {text:"I'm moving, but it feels more like reacting than choosing", score:1, dim:3},
+      {text:"Something shifted recently and I haven't caught up to it yet", score:2, dim:1},
+      {text:"Things are going well — I just want to think more clearly about where they're going", score:3, dim:2}
+    ],
+    openLabel:"Anything you'd add — in your own words? (optional)"
+  }
+];
+
+// ─── STATE ──────────────────────────────────────────────────────
+let userName = "";
+let userEmail = "";
+let currentQ = 0;
+let answers = {};   // qId -> option index
+let openText = "";
+let dimScores = {0:0, 1:0, 2:0, 3:0};
+let dimMax   = {0:0, 1:0, 2:0, 3:0};
+
+// ─── NAVIGATION ─────────────────────────────────────────────────
+function goTo(screenId){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo(0,0);
+  updateProgress(screenId);
+}
+
+function updateProgress(screenId){
+  const map = {'screen-landing':0,'screen-capture':10,'screen-questions':null,'screen-results':100};
+  const bar = document.getElementById('progress-bar');
+  const step = document.getElementById('topbar-step');
+  if(screenId==='screen-landing'){bar.style.width='0%';step.textContent='Free Assessment';}
+  else if(screenId==='screen-capture'){bar.style.width='10%';step.textContent='Step 1 of 3 — Your details';}
+  else if(screenId==='screen-questions'){step.textContent='';}
+  else if(screenId==='screen-results'){bar.style.width='100%';step.textContent='Your results';}
+}
+
+function setQuestionProgress(){
+  const pct = 10 + Math.round((currentQ/questions.length)*85);
+  document.getElementById('progress-bar').style.width = pct+'%';
+  document.getElementById('topbar-step').textContent = `Question ${currentQ+1} of ${questions.length}`;
+}
+
+// ─── ASSESSMENT START ────────────────────────────────────────────
+function startAssessment(){
+  const n = document.getElementById('input-name').value.trim();
+  const e = document.getElementById('input-email').value.trim();
+  if(!n){alert('Please enter your first name.');return;}
+  if(!e||!e.includes('@')){alert('Please enter a valid email address.');return;}
+  userName = n;
+  userEmail = e;
+  currentQ = 0;
+  answers = {};
+  goTo('screen-questions');
+  renderQuestion();
+}
+
+// ─── RENDER QUESTION ─────────────────────────────────────────────
+function renderQuestion(){
+  setQuestionProgress();
+  const q = questions[currentQ];
+  const container = document.getElementById('question-container');
+  let html = `
+    <p class="q-section-tag">${q.tag}</p>
+    <p class="q-number">Question ${currentQ+1} of ${questions.length}</p>
+    <p class="q-text">${q.text}</p>
+    <div class="options-list">`;
+
+  q.options.forEach((opt,i)=>{
+    const sel = answers[q.id]===i ? 'selected' : '';
+    html += `<button class="option-btn ${sel}" onclick="selectOption(${i})">${opt.text}</button>`;
+  });
+  html += `</div>`;
+
+  if(q.type==='choice_plus_open'){
+    html += `<p class="optional-tag">${q.openLabel}</p>
+    <textarea class="open-text" id="open-text-input" placeholder="Share anything on your mind..." onchange="openText=this.value">${openText}</textarea>`;
+  }
+
+  const isLast = currentQ===questions.length-1;
+  html += `<div class="q-nav">
+    <button class="btn-back" onclick="prevQuestion()" ${currentQ===0?'disabled style="opacity:0;pointer-events:none"':''}>← Back</button>
+    <button class="btn-next" id="btn-next" onclick="nextQuestion()" ${answers[q.id]===undefined?'disabled':''}>
+      ${isLast ? 'See my results →' : 'Next →'}
+    </button>
+  </div>`;
+
+  container.innerHTML = html;
+  if(q.type==='choice_plus_open' && document.getElementById('open-text-input')){
+    document.getElementById('open-text-input').value = openText;
+  }
+}
+
+function selectOption(i){
+  const q = questions[currentQ];
+  answers[q.id] = i;
+  document.querySelectorAll('.option-btn').forEach((b,idx)=>{
+    b.classList.toggle('selected', idx===i);
+  });
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQuestion(){
+  if(currentQ < questions.length-1){
+    if(questions[currentQ].type==='choice_plus_open'){
+      const ot = document.getElementById('open-text-input');
+      if(ot) openText = ot.value;
+    }
+    currentQ++;
+    renderQuestion();
+    window.scrollTo(0,0);
+  } else {
+    computeResults();
+  }
+}
+
+function prevQuestion(){
+  if(currentQ > 0){currentQ--;renderQuestion();window.scrollTo(0,0);}
+}
+
+// ─── COMPUTE RESULTS ─────────────────────────────────────────────
+function computeResults(){
+  dimScores = {0:0,1:0,2:0,3:0};
+  dimMax    = {0:0,1:0,2:0,3:0};
+  let totalScore = 0;
+  let totalMax = 0;
+
+  questions.forEach(q=>{
+    const chosen = answers[q.id];
+    if(chosen === undefined) return;
+    const opt = q.options[chosen];
+    const d = opt.dim;
+    dimScores[d] += opt.score;
+    // track max possible per dim
+    const maxForQ = Math.max(...q.options.map(o=>o.score));
+    dimMax[d] += maxForQ;
+    totalScore += opt.score;
+    totalMax += maxForQ;
+  });
+
+  const scorePct = totalMax > 0 ? totalScore/totalMax : 0;
+  const scoreOutOf10 = Math.round(scorePct*10);
+  const isHighScore = scorePct >= 0.6;
+
+  goTo('screen-results');
+  renderResults(scoreOutOf10, scorePct, isHighScore);
+}
+
+// ─── PROFILE LOGIC ───────────────────────────────────────────────
+// Profiles derived from dominant answer pattern, not just score
+// dim0=waiting, dim1=conditions/constraints, dim2=control/agency, dim3=pause
+
+function getProfileKey(pct){
+  if(pct >= 0.67) return 'clearing';
+  if(pct >= 0.4)  return 'threshold';
+  return 'fog';
+}
+
+const profileMeta = {
+  fog:       { name:"Still water",   color:"#b03020", tagline:"The surface looks calm. That's not the same as settled." },
+  threshold: { name:"Mid-crossing",  color:"#b07a1a", tagline:"You're in it. Not stuck — moving, just not arrived." },
+  clearing:  { name:"Open ground",   color:"#2a7a4a", tagline:"Something has shifted. You can see further than you're walking." }
+};
+
+// Answer-aware profile description
+function buildProfileDescription(name, pct){
+  const key = getProfileKey(pct);
+  // Read the specific answers
+  const q1ans = answers[1]; // broken piano: 0=worked with it, 1=pushed+better, 2=waited, 3=motions
+  const q2ans = answers[2]; // control: 0=most/chose, 1=some/both, 2=very little, 3=never examined
+  const q3ans = answers[3]; // gap: 0=space/learned, 1=brief delay, 2=no gap, 3=varies
+  const q4ans = answers[4]; // stuck: 0=waiting conditions, 1=reacting, 2=shifted/catching up, 3=going well
+
+  // Build a sentence about how they meet constraints (Q1)
+  const constraintLine = [
+    `When something broke down, you worked with it. That's not instinct for most people — it's a practice, and you have it.`,
+    `When something broke down, you kept moving but kept one eye on escape. The part worth examining isn't the action — it's the escape hatch you kept open.`,
+    `When something broke down, you waited for it to be fixed. That patience has a cost you haven't fully added up yet.`,
+    `When something broke down, you went through the motions. You were there, but not quite in it. That distance is worth asking about.`
+  ][q1ans ?? 2];
+
+  // Build a sentence about how they hold agency (Q2)
+  const agencyLine = [
+    `You believe you steered most of what's happened to you. That confidence is useful — until it becomes the reason you stop looking at what you didn't choose.`,
+    `You hold your agency lightly: some choices, some conditions, some things that just arrived. That's an honest reading.`,
+    `You feel like things mostly happened to you. There's something important in that — but it's also worth asking whether that story is protecting you from something.`,
+    `You've never really examined how much of your life you chose. That question is worth sitting in. Not to find an answer — but to notice what comes up when you try.`
+  ][q2ans ?? 1];
+
+  // Build a sentence about the gap (Q3)
+  const pauseLine = [
+    `You've built a pause. That space between what hits you and how you respond — you know it exists and you've learned to use it.`,
+    `You know the pause is there, but you're not usually in it before you've already moved. The response has already left before you've decided to send it.`,
+    `For you, the gap doesn't really exist yet. You're already responding before you've registered there was a moment to choose.`,
+    `Your relationship with that space is inconsistent — sometimes you're in it, sometimes it's gone before you arrive. That inconsistency is actually the thing worth working on.`
+  ][q3ans ?? 2];
+
+  return `${name}. ${constraintLine} ${agencyLine} ${pauseLine}`;
+}
+
+// ─── RENDER RESULTS ──────────────────────────────────────────────
+function renderResults(score, pct, isHigh){
+  const key = getProfileKey(pct);
+  const profile = profileMeta[key];
+
+  document.getElementById('result-name').textContent = userName;
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('score-label-text').textContent = profile.name;
+  document.getElementById('score-label-text').style.color = profile.color;
+
+  drawGauge(score, pct);
+
+  // Replace traffic lights with three focused tension lines drawn from answers
+  const grid = document.getElementById('traffic-grid');
+  const q1ans = answers[1] ?? 2;
+  const q2ans = answers[2] ?? 1;
+  const q3ans = answers[3] ?? 2;
+
+  const constraintColor = [
+    '#2a7a4a','#b07a1a','#b03020','#b07a1a'
+  ][q1ans];
+  const agencyColor = [
+    '#b07a1a','#2a7a4a','#b07a1a','#b03020'
+  ][q2ans];
+  const pauseColor = [
+    '#2a7a4a','#b07a1a','#b03020','#b07a1a'
+  ][q3ans];
+  const overallColor = pct>=0.67?'#2a7a4a':pct>=0.4?'#b07a1a':'#b03020';
+
+  grid.innerHTML = `
+    <div class="traffic-cell">
+      <div class="traffic-dot" style="background:${constraintColor}"></div>
+      <div class="traffic-dim">Meeting the broken piano</div>
+    </div>
+    <div class="traffic-cell">
+      <div class="traffic-dot" style="background:${agencyColor}"></div>
+      <div class="traffic-dim">How you hold agency</div>
+    </div>
+    <div class="traffic-cell">
+      <div class="traffic-dot" style="background:${pauseColor}"></div>
+      <div class="traffic-dim">The gap before you act</div>
+    </div>
+    <div class="traffic-cell">
+      <div class="traffic-dot" style="background:${overallColor}"></div>
+      <div class="traffic-dim">Overall</div>
+    </div>`;
+
+  // Profile card
+  const ic = document.getElementById('intro-card');
+  const desc = buildProfileDescription(userName, pct);
+  ic.innerHTML = `
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem">
+      <div style="width:10px;height:48px;border-radius:4px;background:${profile.color};flex-shrink:0"></div>
+      <div>
+        <p style="font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.2rem">Your profile</p>
+        <h3 style="font-family:var(--serif);font-size:1.4rem;color:${profile.color};margin:0">${profile.name}</h3>
+        <p style="font-size:13px;color:var(--ink-muted);margin:0.2rem 0 0;font-style:italic">${profile.tagline}</p>
+      </div>
+    </div>
+    <p style="font-size:15px;color:var(--ink-soft);line-height:1.85;margin:0 0 1.25rem">${desc}</p>
+    <div style="padding:0.9rem 1rem;background:var(--paper-warm);border-radius:4px;border:1px solid var(--border)">
+      <p style="font-size:14px;color:var(--ink);line-height:1.65;margin:0">A short piece that goes with this — the Jarrett story, the idea underneath it, and three questions to sit with. No sign-up. Download it below.</p>
+    </div>`;
+
+  // Insights — drawn directly from specific answers, not just score buckets
+  const ins = document.getElementById('insights-section');
+  ins.innerHTML = generateInsights().map(i=>`
+    <div class="insight-card">
+      <div class="insight-label">${i.label}</div>
+      <div class="insight-text">${i.text}</div>
+    </div>`).join('');
+
+  // Next steps
+  const ns = document.getElementById('next-steps');
+  if(key === 'clearing'){
+    ns.innerHTML = `
+      <div class="next-step-card">
+        <div class="step-icon qualified">→</div>
+        <div>
+          <div class="step-title">Join the next live session</div>
+          <div class="step-desc">A small-group session — 45 minutes — where we work through one of these ideas. The conversation is better when people are already thinking. DM Grace on TikTok or reply to the email to get on the list.</div>
+        </div>
+      </div>
+      <div class="next-step-card">
+        <div class="step-icon qualified">→</div>
+        <div>
+          <div class="step-title">Download the piece — it's free</div>
+          <div class="step-desc">The Jarrett story, the conditions idea, three reflection prompts. One sitting. Bring it to the session if you come.</div>
+        </div>
+      </div>`;
+  } else {
+    ns.innerHTML = `
+      <div class="next-step-card">
+        <div class="step-icon nurture">→</div>
+        <div>
+          <div class="step-title">Start with the free newsletter</div>
+          <div class="step-desc">One story, one idea, one question — every week. It's the slow work this assessment is pointing at. Nothing to buy.</div>
+        </div>
+      </div>
+      <div class="next-step-card">
+        <div class="step-icon nurture">→</div>
+        <div>
+          <div class="step-title">Download the free piece</div>
+          <div class="step-desc">A short read — the Jarrett story, the idea underneath it, three prompts. A good place to start.</div>
+        </div>
+      </div>`;
+  }
+}
+
+function generateInsights(){
+  const ins = [];
+  const q1ans = answers[1] ?? 2;
+  const q2ans = answers[2] ?? 1;
+  const q3ans = answers[3] ?? 2;
+  const q4ans = answers[4] ?? 1;
+
+  // Insight 1: about how they meet broken conditions
+  const constraintInsights = [
+    {label:"On the broken piano", text:"You worked with what you had. That's what Jarrett did. Most people spend those hours looking for a better piano — and the show doesn't happen. The question worth asking isn't whether you can do this. It's whether you do it consistently, or only when the stakes are low enough that it feels safe."},
+    {label:"On the broken piano", text:"You kept moving, but the exit sign stayed lit. There's a version of forward motion that isn't really working with the conditions — it's tolerating them while looking for a way out. That exit sign is worth examining. What exactly are you waiting for?"},
+    {label:"On the broken piano", text:"You waited for better conditions. So did most of the people who never made the recording. The broken piano isn't the obstacle to the show — the waiting is. Not because pushing through always works, but because waiting for conditions to improve is rarely the strategy it feels like."},
+    {label:"On the broken piano", text:"You went through it, but you weren't quite in it. There's a kind of presence that's physically there but emotionally somewhere else — managing rather than engaging. The cost of that isn't always visible immediately. It shows up later, in what you didn't make."}
+  ];
+  ins.push(constraintInsights[q1ans]);
+
+  // Insight 2: about the gap and pause
+  const pauseInsights = [
+    {label:"On the gap", text:"You've built something rare — a real pause. The ability to sit in the space between what happens and how you respond means you're authoring your reactions rather than just running them. The risk now is getting attached to the pause itself — using stillness as a way to avoid the move."},
+    {label:"On the gap", text:"You know the pause is supposed to be there — you've probably heard this idea before. But knowing it and inhabiting it are different things. The response is usually already in the air before the pause kicks in. That gap is trainable, but it takes more friction than a reminder."},
+    {label:"On the gap", text:"For you, the response and the stimulus are nearly simultaneous. That's not laziness — it's a wiring pattern that's been very reliable. The cost is that you don't always know what you actually think until after you've already said it. Starting to notice the gap is the first step, not fixing it."},
+    {label:"On the gap", text:"Sometimes you're in that space, sometimes you're not. The inconsistency itself is information. It usually means the pause exists as an idea for you, but not yet as a practice — it shows up when you remember to look for it, and disappears under pressure. Pressure is exactly when it matters most."}
+  ];
+  ins.push(pauseInsights[q3ans]);
+
+  // Insight 3: about how they're currently stuck (Q4)
+  const stuckInsights = [
+    {label:"On waiting", text:"The conditions you're waiting for may never arrive in the form you're expecting them. Stimson didn't plan to fall in love with Kyoto — he just went on holiday. The things that change the story rarely look like the right conditions when they show up. They look like ordinary moments that could easily be missed."},
+    {label:"On reacting vs choosing", text:"Moving and choosing aren't the same thing. It's possible to be very busy in a direction you never decided to go. The question isn't whether you're moving — it's whether you'd choose this direction if you stopped for long enough to actually choose."},
+    {label:"On catching up", text:"Something shifted, and you're still processing it. That gap between what happened and what you've made sense of it is not wasted time — it's where the actual work is. Most people skip it and head straight to the next thing. The catch-up is the work."},
+    {label:"On clarity", text:"You're in motion and things are working. The risk here is that clarity can feel like it comes from analysis — as if thinking harder about direction will resolve it. Sometimes it comes from moving, and noticing what you feel when you arrive."}
+  ];
+  ins.push(stuckInsights[q4ans]);
+
+  return ins;
+}
+
+// ─── GAUGE SVG ───────────────────────────────────────────────────
+function drawGauge(score, pct){
+  const svg = document.getElementById('gauge-svg');
+  const cx=130, cy=130, r=100, sw=18;
+  const startA = Math.PI, endA = 2*Math.PI;
+  const angle = startA + pct*(endA-startA);
+  const color = pct>=0.75 ? '#2a7a4a' : pct>=0.5 ? '#b07a1a' : '#b03020';
+
+  function polar(cx,cy,r,a){return [cx+r*Math.cos(a), cy+r*Math.sin(a)];}
+  const [sx,sy]=polar(cx,cy,r,startA);
+  const [ex,ey]=polar(cx,cy,r,angle);
+  const large = pct>0.5?1:0;
+
+  svg.innerHTML = `
+    <path d="M${polar(cx,cy,r,startA)[0]} ${polar(cx,cy,r,startA)[1]} A ${r} ${r} 0 1 1 ${polar(cx,cy,r,2*Math.PI)[0]} ${polar(cx,cy,r,2*Math.PI)[1]}"
+      fill="none" stroke="#e0d8cc" stroke-width="${sw}" stroke-linecap="round"/>
+    <path d="M${sx} ${sy} A ${r} ${r} 0 ${large} 1 ${ex} ${ey}"
+      fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round"/>
+    <circle cx="${ex}" cy="${ey}" r="8" fill="${color}"/>
+    <text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="36" font-weight="700" fill="${color}" font-family="'Playfair Display',serif">${score}</text>
+    <text x="${cx}" y="${cy+32}" text-anchor="middle" font-size="13" fill="#8a847a" font-family="'DM Sans',sans-serif">out of 10</text>`;
+}
+
+// ─── PDF DOWNLOAD ─────────────────────────────────────────────────
+function downloadPDF(){
+  const {jsPDF} = window.jspdf;
+  if(!jsPDF){alert('PDF library loading, please try again.');return;}
+  const doc = new jsPDF({unit:'mm',format:'a4'});
+  const scoreVal = parseInt(document.getElementById('score-display').textContent);
+  const pct = scoreVal/10;
+  const key = getProfileKey(pct);
+  const profile = profileMeta[key];
+
+  doc.setFillColor(250,248,244);
+  doc.rect(0,0,210,297,'F');
+
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(22);doc.setTextColor(26,24,20);
+  doc.text('The Invisible Pivots Assessment',105,28,{align:'center'});
+
+  doc.setFontSize(11);doc.setFont('helvetica','normal');doc.setTextColor(138,132,122);
+  doc.text(`Results for ${userName}`,105,38,{align:'center'});
+
+  doc.setDrawColor(224,216,204);doc.line(20,44,190,44);
+
+  doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(26,24,20);
+  doc.text('Your Profile',20,56);
+  doc.setFont('helvetica','normal');doc.setFontSize(11);doc.setTextColor(74,69,62);
+  doc.text(`${profile.name} — ${profile.tagline}`,20,64);
+
+  doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(26,24,20);
+  doc.text('What your answers showed',20,78);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(74,69,62);
+  const desc = buildProfileDescription(userName, pct);
+  const lines = doc.splitTextToSize(desc, 170);
+  doc.text(lines, 20, 88);
+
+  doc.setDrawColor(224,216,204);doc.line(20,145,190,145);
+  doc.setFontSize(9);doc.setTextColor(138,132,122);
+  doc.text('Grace Macharia  ·  Invisible Pivots  ·  This assessment is free to share.',105,152,{align:'center'});
+
+  doc.save(`invisible-pivots-${userName.toLowerCase()}.pdf`);
+}
+</script>
+</body>
+</html>
