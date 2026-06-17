@@ -3,18 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Invisible Pivots Assessment</title>
+<title>The Turning Point Assessment</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<!-- MailerLite Universal -->
-<script>
-    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
-    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
-    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
-    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-    ml('account', '2445209');
-</script>
-<!-- End MailerLite Universal -->
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -185,7 +176,7 @@ svg text{font-family:var(--sans)}
 <body>
 
 <div class="topbar">
-  <span class="topbar-brand">Invisible Pivots</span>
+  <span class="topbar-brand">Turning Point</span>
   <span class="topbar-step" id="topbar-step">Free Assessment</span>
 </div>
 <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
@@ -196,10 +187,10 @@ svg text{font-family:var(--sans)}
 <div class="screen active" id="screen-landing">
 
   <div class="hero">
-    <p class="eyebrow">Free Assessment &nbsp;·&nbsp; 6 Questions &nbsp;·&nbsp; 2 Minutes</p>
-    <p style="font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--ink-muted);max-width:500px;margin:0 auto 1.75rem;line-height:1.8;border-left:2px solid var(--accent);padding-left:1rem;text-align:left;">In many African traditions, time isn't a resource to be optimised — it's woven from real events, real people, real moments. How you show up in the unplanned moments matters far more than any grand strategy.</p>
-    <h1>Keith Jarrett didn't wait<br>for <em>a better piano.</em><br>He played the broken one.</h1>
-    <p class="hero-sub">The recording became the bestselling solo jazz album ever made. Find out how you respond when things don't go to plan.</p>
+    <p class="eyebrow">Free Assessment &nbsp;·&nbsp; 3 Questions &nbsp;·&nbsp; 1 Minute</p>
+    <p style="font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--ink-muted);max-width:500px;margin:0 auto 1.75rem;line-height:1.8;border-left:2px solid var(--accent);padding-left:1rem;text-align:left;">In many African traditions, time isn't a resource to be optimised — it's woven from real events, real people, real moments. You don't save time or waste it. You create it.</p>
+    <h1>Most people are waiting<br>for <em>the right conditions.</em><br>They're not coming.</h1>
+    <p class="hero-sub">The question isn't whether you're ready. It's what you do in the moment when you're not. Three questions. Find out where you actually stand.</p>
   </div>
 
   <hr class="divider">
@@ -209,25 +200,25 @@ svg text{font-family:var(--sans)}
     <div class="benefits-grid">
       <div class="benefit-card">
         <div class="benefit-num">01</div>
-        <div class="benefit-title">The piano you're avoiding</div>
-        <div class="benefit-desc">Are you working with what you have — or waiting for something better?</div>
+        <div class="benefit-title">What you do when conditions aren't right</div>
+        <div class="benefit-desc">Are you working with what's in front of you, or still waiting?</div>
       </div>
       <div class="benefit-card">
         <div class="benefit-num">02</div>
-        <div class="benefit-title">The wheel you're steering</div>
-        <div class="benefit-desc">How much of this is actually in your control?</div>
+        <div class="benefit-title">Where you actually are right now</div>
+        <div class="benefit-desc">Not where you think you should be. Where you are.</div>
       </div>
       <div class="benefit-card">
         <div class="benefit-num">03</div>
-        <div class="benefit-title">The gap before you react</div>
-        <div class="benefit-desc">What's really happening in that pause?</div>
+        <div class="benefit-title">What kind of support would actually move you</div>
+        <div class="benefit-desc">Because what works for someone else may not be what you need.</div>
       </div>
     </div>
   </div>
 
   <div style="max-width:680px;margin:0 auto;padding:0 2rem 4rem;text-align:center;">
     <button class="btn btn-primary" style="max-width:320px;margin:0 auto" onclick="goTo('screen-capture')">Start the free assessment →</button>
-    <p class="cta-note" style="margin-top:0.75rem">6 questions &nbsp;·&nbsp; 2 minutes &nbsp;·&nbsp; Immediate results &nbsp;·&nbsp; Free</p>
+    <p class="cta-note" style="margin-top:0.75rem">3 questions &nbsp;·&nbsp; 1 minute &nbsp;·&nbsp; Immediate results &nbsp;·&nbsp; Free</p>
   </div>
 
 </div>
@@ -238,7 +229,7 @@ svg text{font-family:var(--sans)}
 <div class="screen" id="screen-capture">
   <div class="capture-wrap">
     <h2>Before we begin</h2>
-    <p>Enter your name and email to get started — your results will be waiting on the other side.</p>
+    <p>Enter your name and email, your results will be on the other side.</p>
     <div class="form-group">
       <label>First name</label>
       <input type="text" id="input-name" placeholder="e.g. Amara" />
@@ -249,7 +240,7 @@ svg text{font-family:var(--sans)}
       <p class="privacy-note">No spam. Used only to deliver your results.</p>
     </div>
     <button class="btn btn-primary" onclick="startAssessment()">Continue →</button>
-    <p class="cta-note" style="margin-top:0.75rem">Free &nbsp;·&nbsp; 6 questions &nbsp;·&nbsp; 2 minutes &nbsp;·&nbsp; Immediate results</p>
+    <p class="cta-note" style="margin-top:0.75rem">Free &nbsp;·&nbsp; 3 questions &nbsp;·&nbsp; 1 minute &nbsp;·&nbsp; Immediate results</p>
   </div>
 </div>
 
@@ -284,7 +275,7 @@ svg text{font-family:var(--sans)}
     </div>
 
     <!-- DIMENSION TRAFFIC LIGHTS -->
-    <div class="results-section-label" style="margin-top:1.5rem">Your four dimensions</div>
+    <div class="results-section-label" style="margin-top:1.5rem">Your two dimensions</div>
     <div class="traffic-grid" id="traffic-grid"></div>
 
     <!-- INSIGHTS -->
@@ -314,78 +305,42 @@ svg text{font-family:var(--sans)}
 <script>
 // ─── DATA ───────────────────────────────────────────────────────
 const questions = [
-  // Q1: Constraint response (broken piano)
+  // Q1: Constraint response: what do you do when conditions aren't right
   {
-    id:1, tag:"How you work",
-    text:"When things don't go to plan, what do you typically do first?",
+    id:1, tag:"Right now",
+    text:"Something isn't working the way you planned. What do you actually do?",
     type:"choice",
     options:[
-      {text:"Stop and think before doing anything", score:3, dim:1},
-      {text:"Push through and figure it out later", score:2, dim:1},
-      {text:"Look for what or who caused it", score:1, dim:2},
-      {text:"Feel stuck until conditions improve", score:0, dim:1}
+      {text:"I find a way to work with what I have", score:3, dim:1},
+      {text:"I push through and sort it out later", score:2, dim:1},
+      {text:"I wait, things will shift when the time is right", score:0, dim:1},
+      {text:"I freeze. I'm not sure what to do.", score:0, dim:1}
     ]
   },
-  // Q2: Control illusion (the wheel)
+  // Q2: Current reality; honest self-location
   {
-    id:2, tag:"How you see things",
-    text:"How much of what happens in your life do you feel you genuinely control?",
+    id:2, tag:"Where you are",
+    text:"Which of these is closest to where you are right now?",
     type:"choice",
     options:[
-      {text:"Most of it — I shape my outcomes", score:1, dim:2},
-      {text:"Some of it — I influence what I can", score:3, dim:2},
-      {text:"Very little — external forces dominate", score:1, dim:2},
-      {text:"I try not to think about it", score:0, dim:2}
+      {text:"I can see where I want to go, but I'm not moving toward it", score:0, dim:2},
+      {text:"I'm moving, but it feels like I'm reacting more than choosing", score:1, dim:2},
+      {text:"I feel stuck and I can't fully explain why", score:0, dim:2},
+      {text:"Things are okay, I just want to think more clearly", score:3, dim:2}
     ]
   },
-  // Q3: The gap / pause
+  // Q3: What would actually help; market research + open text
   {
-    id:3, tag:"How you respond",
-    text:"Before reacting to something difficult, what actually happens in that moment?",
-    type:"choice",
-    options:[
-      {text:"I pause — it's something I've worked at", score:3, dim:3},
-      {text:"I pause sometimes, when I remember", score:2, dim:3},
-      {text:"I usually react first, reflect later", score:1, dim:3},
-      {text:"I don't really think about it", score:0, dim:3}
-    ]
-  },
-  // Q4: Obstacle
-  {
-    id:4, tag:"What's been in the way",
-    text:"You already sense things could be different. What's kept you from getting there?",
-    type:"choice",
-    options:[
-      {text:"I keep waiting for the right time or conditions", score:0, dim:1},
-      {text:"I've tried things but nothing has stuck", score:1, dim:3},
-      {text:"I haven't known where to start", score:1, dim:2},
-      {text:"I haven't taken it seriously enough yet", score:1, dim:2}
-    ]
-  },
-  // Q5: Current reality
-  {
-    id:5, tag:"Where you are right now",
-    text:"Which of these best describes where you are right now?",
-    type:"choice",
-    options:[
-      {text:"I can see the gap between where I am and where I want to be — but I'm not moving", score:0, dim:2},
-      {text:"I'm moving but it feels like I'm reacting more than choosing", score:1, dim:3},
-      {text:"I feel stuck and I'm not entirely sure why", score:0, dim:1},
-      {text:"Things are going reasonably well — I just want to think more clearly", score:3, dim:2}
-    ]
-  },
-  // Q6: Preferred solution + open text
-  {
-    id:6, tag:"What would help",
-    text:"If the right support existed, what format would actually work for you?",
+    id:3, tag:"What would help",
+    text:"If the right support existed, what would actually work for you?",
     type:"choice_plus_open",
     options:[
-      {text:"A short guide I can work through on my own", score:2, dim:0},
+      {text:"A short read I can go through on my own", score:2, dim:0},
       {text:"A live session with a small group", score:2, dim:0},
-      {text:"One-to-one support", score:2, dim:0},
-      {text:"A regular newsletter — ideas in my inbox", score:2, dim:0}
+      {text:"One-to-one conversation", score:2, dim:0},
+      {text:"Ideas in my inbox regularly", score:2, dim:0}
     ],
-    openLabel:"Anything else on your mind? (optional)"
+    openLabel:"Anything else? (optional)"
   }
 ];
 
@@ -437,30 +392,10 @@ function startAssessment(){
   if(!e||!e.includes('@')){alert('Please enter a valid email address.');return;}
   userName = n;
   userEmail = e;
-
-  // Send to MailerLite (Invisible Pivots group) — fire and forget,
-  // never blocks the user from proceeding even if this fails.
-  submitToMailerLite(n, e);
-
   currentQ = 0;
   answers = {};
   goTo('screen-questions');
   renderQuestion();
-}
-
-function submitToMailerLite(name, email){
-  try{
-    const formData = new FormData();
-    formData.append('fields[name]', name);
-    formData.append('fields[email]', email);
-    fetch('https://assets.mailerlite.com/jsonp/2445209/forms/2vZl7Y/subscribe', {
-      method: 'POST',
-      mode: 'no-cors',
-      body: formData
-    }).catch(()=>{ /* silently ignore network errors */ });
-  } catch(err){
-    // Never let this break the assessment flow
-  }
 }
 
 // ─── RENDER QUESTION ─────────────────────────────────────────────
@@ -557,24 +492,24 @@ function computeResults(){
 // ─── PROFILES ────────────────────────────────────────────────────
 const profiles = {
   fog: {
-    name: "The Fog",
+    name: "Waiting",
     color: "#b03020",
-    tagline: "Visibility is low — but fog lifts.",
-    description: (name) => `${name}, you know something needs to shift — you can feel it. But right now the path ahead isn't clear, and most of your energy is going into managing the uncertainty rather than moving through it. That's not a character flaw. Fog lifts. The question is what you do while you're in it.`,
+    tagline: "Visibility is low, but fog lifts.",
+    description: (name) => `${name}, you know something needs to shift, you can feel it. But right now the path ahead isn't clear, and most of your energy is going into managing the uncertainty rather than moving through it. That's not a character flaw. Fog lifts. The question is what you do while you're in it.`,
     isHigh: false
   },
   threshold: {
-    name: "The Threshold",
+    name: "Walking",
     color: "#b07a1a",
     tagline: "You're standing in a significant moment.",
-    description: (name) => `${name}, you're standing in a genuinely interesting place — you've done enough thinking to know what matters, but you haven't fully stepped through yet. Something is holding the door. This isn't stagnation. This is the moment just before movement, and it's more significant than it feels.`,
+    description: (name) => `${name}, you're standing in a genuinely interesting place, you've done enough thinking to know what matters, but you haven't fully stepped through yet. Something is holding the door. This isn't stagnation. This is the moment just before movement, and it's more significant than it feels.`,
     isHigh: false
   },
   clearing: {
-    name: "The Clearing",
+    name: "Arrived",
     color: "#2a7a4a",
-    tagline: "You've moved through something — keep going.",
-    description: (name) => `${name}, you've moved through something — maybe without even naming it. There's more visibility here than most people allow themselves. The work now isn't about finding the path. It's about trusting what you can already see and moving without waiting for perfect conditions.`,
+    tagline: "You've moved through something; Don't stop, keep going.",
+    description: (name) => `${name}, you've moved through something, maybe without even naming it. There's more visibility here than most people allow themselves. The work now isn't about finding the path. It's about trusting what you can already see and moving without waiting for perfect conditions.`,
     isHigh: true
   }
 };
@@ -597,11 +532,11 @@ function renderResults(score, pct, isHigh){
   // Gauge
   drawGauge(score, pct);
 
-  // Traffic lights — rename dims to match new framing
+  // Traffic lights — 2 dimensions only
   const grid = document.getElementById('traffic-grid');
-  const dimLabels = ['Self-awareness','The broken piano','The wheel','The gap'];
+  const dimLabels = ['','Conditions','Where you are',''];
   let tHtml = '';
-  [0,1,2,3].forEach(d=>{
+  [1,2].forEach(d=>{
     const dp = dimMax[d]>0 ? dimScores[d]/dimMax[d] : 0;
     const color = dp>=0.67 ? '#2a7a4a' : dp>=0.4 ? '#b07a1a' : '#b03020';
     tHtml += `<div class="traffic-cell">
@@ -624,8 +559,8 @@ function renderResults(score, pct, isHigh){
     </div>
     <p style="font-size:15px;color:var(--ink-soft);line-height:1.75;margin:0">${profile.description(userName)}</p>
     <div style="margin-top:1.25rem;padding:0.9rem 1rem;background:var(--paper-warm);border-radius:4px;border:1px solid var(--border)">
-      <p style="font-size:12px;font-weight:500;color:var(--ink-muted);margin-bottom:0.3rem;letter-spacing:0.05em;text-transform:uppercase">Your free offer</p>
-      <p style="font-size:14px;color:var(--ink);line-height:1.65;margin:0">As a thank you for completing this — here's a short read Grace put together. It includes the Jarrett story, the core idea behind this assessment, and three reflection prompts you can sit with today. No sign-up needed, just download it below.</p>
+      <p style="font-size:12px;font-weight:500;color:var(--ink-muted);margin-bottom:0.3rem;letter-spacing:0.05em;text-transform:uppercase">A small thank you</p>
+      <p style="font-size:14px;color:var(--ink);line-height:1.65;margin:0">As a thank you for completing this — here's a short read Grace put together. One sitting, no fluff, three prompts you can sit with today. Download it below.</p>
     </div>`;
 
   // Insights
@@ -652,7 +587,7 @@ function renderResults(score, pct, isHigh){
         <div class="step-icon qualified">2</div>
         <div>
           <div class="step-title">A short read Grace put together — free</div>
-          <div class="step-desc">It's the piece that underpins this whole assessment — the Jarrett story, the idea, three prompts. Download it below and use it as a starting point for the live session.</div>
+          <div class="step-desc">It's the piece that underpins this whole assessment: the Jarrett story, the idea, three prompts. Download it below and use it as a starting point for the live session.</div>
         </div>
       </div>`;
   } else {
@@ -676,28 +611,22 @@ function renderResults(score, pct, isHigh){
 
 function generateInsights(pct){
   const ins = [];
-  const pauseP = dimMax[3]>0 ? dimScores[3]/dimMax[3] : 0;
   const constP = dimMax[1]>0 ? dimScores[1]/dimMax[1] : 0;
   const ctrlP  = dimMax[2]>0 ? dimScores[2]/dimMax[2] : 0;
-  const uncP   = dimMax[0]>0 ? dimScores[0]/dimMax[0] : 0;
-
-  if(pauseP < 0.5){
-    ins.push({label:"On pausing", text:"Your responses suggest you tend to react before you reflect. The gap between stimulus and response is where your growth lives — and right now, that gap is narrow. The good news: this is one of the most trainable habits there is."});
-  } else {
-    ins.push({label:"On pausing", text:"You've developed a meaningful capacity to slow down before you react. That's not common. Most people confuse speed with effectiveness. You're already separating the two."});
-  }
 
   if(constP < 0.5){
-    ins.push({label:"On constraints", text:"You're still treating constraints as problems to be removed rather than conditions to work with. Keith Jarrett's best album came from a broken piano. The constraint wasn't the obstacle — it was the point."});
+    ins.push({label:"On conditions", text:"Your answers suggest you're still waiting for things to be right before you move. That wait has a cost — and it compounds quietly. The conditions you're waiting for have never existed for anyone who made something worth making."});
   } else {
-    ins.push({label:"On constraints", text:"You've started to see constraints not as problems but as prompts. That shift — from 'this is in my way' to 'what is this making possible?' — is one of the most useful reframes available to you."});
+    ins.push({label:"On conditions", text:"You're already working with what's in front of you rather than holding out for something better. That instinct — to create from what's available — is rarer than it sounds."});
   }
 
   if(ctrlP < 0.5){
-    ins.push({label:"On control", text:"There's a gap between how much control you think you have and how much you actually have. That gap is where a lot of unnecessary suffering lives. Loosening your grip — while keeping your direction — is the work."});
+    ins.push({label:"On where you are", text:"There's a gap between where you are and where you want to be, and right now it feels wider than it probably is. The gap isn't the problem. What you do while you're in it is."});
+  } else {
+    ins.push({label:"On where you are", text:"You have more clarity on your situation than most people allow themselves. The work now is moving from clarity into action — without waiting for the path to become more certain than it ever will be."});
   }
 
-  return ins.slice(0,3);
+  return ins.slice(0,2);
 }
 
 // ─── GAUGE SVG ───────────────────────────────────────────────────
@@ -750,9 +679,9 @@ function downloadPDF(){
   doc.text(`${document.getElementById('score-display').textContent}/10 — ${scoreLabel}`,20,64);
 
   doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(26,24,20);
-  doc.text('Your Four Dimensions',20,78);
-  const dimLabels=['Uncertainty','Constraints','Control','Pause'];
-  [0,1,2,3].forEach((d,i)=>{
+  doc.text('Your Two Dimensions',20,78);
+  const dimLabels=['','Conditions','Where you are',''];
+  [1,2].forEach((d,i)=>{
     const dp = dimMax[d]>0?dimScores[d]/dimMax[d]:0;
     const status = dp>=0.67?'Strong':dp>=0.4?'Developing':'Needs attention';
     doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(74,69,62);
