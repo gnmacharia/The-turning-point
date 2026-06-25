@@ -246,6 +246,8 @@ svg text{font-family:var(--sans)}
 
 <script>
 // ─── CONFIG ─────────────────────────────────────────────────────
+// Using MailerLite embedded form endpoint — CORS-safe for browser use
+const ML_FORM_URL = 'https://assets.mailerlite.com/jsonp/2445209/forms/190321647218067053/subscribe';
 const MAILERLITE_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiNGZjNDFmYzUzMmQ5YjY5NDliYmFmOTA5ZTIzNTVlZDUwYTlkNTIyZmMwZGNhMjU0OWM5Y2U4N2E4YTcxNGIwYjRlOTNiY2Y2ODIyNTBhYzEiLCJpYXQiOjE3ODIzNjgyNDYuMzI1MTYzLCJuYmYiOjE3ODIzNjgyNDYuMzI1MTY2LCJleHAiOjQ5MzgwNDE4NDYuMzE3ODMsInN1YiI6IjI0NjE5ODkiLCJzY29wZXMiOltdfQ.olwuhykze1j-TNMX4v8rdjVhvsty1WJDgDb4z7IJuYweV5pjL-BLK7yMrIxLViZPReomMXyYcGqkraCabyU8AEwNgNTRdEg2fB1oWdBvvgQzH7Qxx0hnB29VsBIPootXpZC-FkZ_PnioMRAMnpk9Lwmx-Gtc1UmcfrreJr8nhAIUiRrZ0kAXsrIn6dbtCCk52xXhDJDf-KR-Gnx79zto0hgmVpuYEo9Wd45jr2_YwQ3JnteZr2PvI7B83eMaCLcgeINjdORUXnQCrEtIsh-Hlcel0O22OpuQ6VBLDjZguu_bHR6A7Z4UGQhD_ALhyIPqcfelXbOHVDwFiuGiBmjMkMr91NoKtZQ5MdL8WR-2sZswwLY7B8RUzunBSFv2m0Ha53x53WJJHLkTh63q-Rwy5xNud5M-DRgdHdgDKO8e6ernohUlkYSPWU9N-a6xHqaJ1pETuBawbiXhVeV02oSO3sTQxaSrIGl3mCGG2BZ3Ywy4UkvPoNazDuNouW13lnskKCsdEm3RmSNFR4QzEayp2E0piS2KVNg8qW-mof8Il0be2YwdqPUvrxPWow5-RsXhOtJb3Bd3SHEthYAu6AsMkC5fpKxsEv4EfWWUNhp40ES8y7iYBDHAICduLKssMoY55zM3ZrACxfuN9QE6UeV-q1lFHrupd1jse810kSlGgIo';
 const MAILERLITE_GROUP = '190320892184627097';
 const MAILERLITE_URL = 'https://connect.mailerlite.com/api/subscribers';
@@ -313,22 +315,26 @@ function capitalise(str){
 }
 
 // ─── MAILERLITE ─────────────────────────────────────────────────
+// Call 1: fires on Continue — captures email immediately via embedded form endpoint
+// This endpoint is CORS-safe (no preflight rejection from browser)
 function mlSubscribe(extraFields){
-  const payload = {
-    email: userEmail,
-    fields: { name: capitalise(userName), ...extraFields },
-    groups: [MAILERLITE_GROUP]
-  };
-  fetch(MAILERLITE_URL, {
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+MAILERLITE_TOKEN},
-    body: JSON.stringify(payload)
-  }).catch(e => console.warn('MailerLite subscribe error:', e));
+  const formData = new FormData();
+  formData.append('fields[email]', userEmail);
+  formData.append('fields[name]', capitalise(userName));
+  formData.append('ml-submit', '1');
+  formData.append('anticsrf', 'true');
+  fetch(ML_FORM_URL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(r => r.json())
+  .then(d => console.log('ML subscribe:', d))
+  .catch(e => console.warn('ML subscribe error:', e));
 }
 
+// Call 2: fires on results render — enriches record via REST API with profile data
+// REST API call kept for custom field enrichment (ip_profile, ip_solution, ip_notes)
 function mlUpdateWithResults(profile, solution, open){
-  // Second call — updates subscriber with profile + solution data
-  // MailerLite upserts on email so this enriches the existing record
   const payload = {
     email: userEmail,
     fields: {
@@ -340,10 +346,13 @@ function mlUpdateWithResults(profile, solution, open){
     groups: [MAILERLITE_GROUP]
   };
   fetch(MAILERLITE_URL, {
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+MAILERLITE_TOKEN},
+    method: 'POST',
+    headers: {'Content-Type':'application/json','Authorization':'Bearer '+MAILERLITE_TOKEN},
     body: JSON.stringify(payload)
-  }).catch(e => console.warn('MailerLite update error:', e));
+  })
+  .then(r => r.json())
+  .then(d => console.log('ML update:', d))
+  .catch(e => console.warn('ML update error:', e));
 }
 
 // ─── NAVIGATION ─────────────────────────────────────────────────
